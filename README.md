@@ -120,15 +120,21 @@ python eval/run_eval.py --mode optimized
 
 The scripts write JSON results and Markdown summaries to `eval/results/`.
 
-Run golden-set eval with the real OpenAI LLM:
+Run golden-set eval with the real OpenAI LLM and compare baseline vs optimized:
 
 ```powershell
 $env:OPENAI_API_KEY="your_openai_key_here"
 $env:OPENAI_MODEL="gpt-5.4-nano"
+python eval/run_eval.py --mode baseline --llm openai --model gpt-5.4-nano
 python eval/run_eval.py --mode optimized --llm openai --model gpt-5.4-nano
 ```
 
-Real-LLM eval writes separate files such as `eval/results/optimized_openai_results.json`.
+Real-LLM eval writes separate files:
+
+- `eval/results/baseline_openai_results.json`
+- `eval/results/baseline_openai_summary.md`
+- `eval/results/optimized_openai_results.json`
+- `eval/results/optimized_openai_summary.md`
 
 ## Golden Set
 
@@ -147,7 +153,7 @@ Real-LLM eval writes separate files such as `eval/results/optimized_openai_resul
 - Security violation count
 - Overall score and per-tag scores
 
-`eval/judge.py` adds deterministic judge scoring and Cohen's kappa between two mock judges.
+`eval/judge.py` adds deterministic LLM-style judge scoring and Cohen's kappa between two mock judges. It does not call the real OpenAI API, so judging remains reproducible even when the agent itself is run with `--llm openai`.
 
 ## 2.4 Analysis (Required)
 
