@@ -1,0 +1,5 @@
+Metadata-Version: 2.4
+Name: customer-support-agent
+Version: 0.1.0
+Summary: Deterministic customer support AI agent with memory, tools, and governance controls.
+Requires-Python: >=3.10

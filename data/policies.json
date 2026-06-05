@@ -1,0 +1,12 @@
+{
+  "refund_window_days": 30,
+  "damaged_item_ticket_priority": "normal",
+  "human_escalation_triggers": [
+    "explicit_human_request",
+    "chargeback_or_legal_threat",
+    "repeated_unresolved_issue",
+    "ambiguous_refund_policy",
+    "sensitive_or_high_risk_information",
+    "low_confidence"
+  ]
+}

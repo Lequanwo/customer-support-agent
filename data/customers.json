@@ -1,0 +1,18 @@
+{
+  "user_alex": {
+    "name": "Alex",
+    "tier": "gold"
+  },
+  "user_bri": {
+    "name": "Bri",
+    "tier": "standard"
+  },
+  "user_chris": {
+    "name": "Chris",
+    "tier": "platinum"
+  },
+  "user_dana": {
+    "name": "Dana",
+    "tier": "standard"
+  }
+}

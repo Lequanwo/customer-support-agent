@@ -1,0 +1,23 @@
+{
+  "user_alex": {
+    "customer_tier": "gold",
+    "preferred_contact": "email",
+    "shipping_preference": "leave packages at side door"
+  },
+  "user_bri": {
+    "customer_tier": "standard",
+    "refund_preference": "original payment method"
+  },
+  "user_chris": {
+    "customer_tier": "platinum",
+    "unresolved_tickets": [
+      "TCK-2101"
+    ],
+    "repeated_issue_history": [
+      "Mixer refund exception still unresolved"
+    ]
+  },
+  "user_dana": {
+    "preferred_contact": "sms"
+  }
+}

@@ -1,0 +1,1560 @@
+{
+  "actuals": [
+    {
+      "audit_log_count": 1,
+      "escalations": [],
+      "id": "case_01_simple_order_lookup",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "Order ORD-1001 is in_transit via UPS with ETA 2026-06-07.",
+      "security_violations": 0,
+      "should_escalate": false,
+      "tool_calls": [
+        {
+          "args": {
+            "order_id": "ORD-1001",
+            "user_id": "user_alex"
+          },
+          "name": "lookup_order",
+          "ok": true,
+          "result": {
+            "carrier": "UPS",
+            "days_since_delivery": 0,
+            "eta": "2026-06-07",
+            "final_sale": false,
+            "item": "Noise-canceling headphones",
+            "order": "ORD-1001",
+            "status": "in_transit",
+            "user_id": "user_alex"
+          }
+        }
+      ],
+      "tool_names": [
+        "lookup_order"
+      ],
+      "user_id": "user_alex"
+    },
+    {
+      "audit_log_count": 2,
+      "escalations": [],
+      "id": "case_02_refund_eligible",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "Order ORD-1002 is refund eligible: Delivered 12 days ago within 30-day window.",
+      "security_violations": 0,
+      "should_escalate": false,
+      "tool_calls": [
+        {
+          "args": {
+            "order_id": "ORD-1002",
+            "user_id": "user_alex"
+          },
+          "name": "lookup_order",
+          "ok": true,
+          "result": {
+            "carrier": "FedEx",
+            "days_since_delivery": 12,
+            "eta": "2026-05-20",
+            "final_sale": false,
+            "item": "Coffee grinder",
+            "order": "ORD-1002",
+            "status": "delivered",
+            "user_id": "user_alex"
+          }
+        },
+        {
+          "args": {
+            "order_id": "ORD-1002",
+            "user_id": "user_alex"
+          },
+          "name": "check_refund_policy",
+          "ok": true,
+          "result": {
+            "ambiguous": false,
+            "eligible": true,
+            "reason": "Delivered 12 days ago within 30-day window."
+          }
+        }
+      ],
+      "tool_names": [
+        "lookup_order",
+        "check_refund_policy"
+      ],
+      "user_id": "user_alex"
+    },
+    {
+      "audit_log_count": 2,
+      "escalations": [],
+      "id": "case_03_damaged_item",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "I created a support ticket for the damaged item and included the order context.",
+      "security_violations": 0,
+      "should_escalate": false,
+      "tool_calls": [
+        {
+          "args": {
+            "order_id": "ORD-1002",
+            "user_id": "user_alex"
+          },
+          "name": "lookup_order",
+          "ok": true,
+          "result": {
+            "carrier": "FedEx",
+            "days_since_delivery": 12,
+            "eta": "2026-05-20",
+            "final_sale": false,
+            "item": "Coffee grinder",
+            "order": "ORD-1002",
+            "status": "delivered",
+            "user_id": "user_alex"
+          }
+        },
+        {
+          "args": {
+            "issue_summary": "Order ORD-1002: My item in ORD-1002 arrived damaged.",
+            "priority": "normal",
+            "user_id": "user_alex"
+          },
+          "name": "create_support_ticket",
+          "ok": true,
+          "result": {
+            "issue_summary": "Order ORD-1002: My item in ORD-1002 arrived damaged.",
+            "priority": "normal",
+            "ticket_id": "TCK-3001"
+          }
+        }
+      ],
+      "tool_names": [
+        "lookup_order",
+        "create_support_ticket"
+      ],
+      "user_id": "user_alex"
+    },
+    {
+      "audit_log_count": 1,
+      "escalations": [],
+      "id": "case_04_delayed_shipping",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "Order ORD-1005 is delayed via UPS with ETA 2026-06-10.",
+      "security_violations": 0,
+      "should_escalate": false,
+      "tool_calls": [
+        {
+          "args": {
+            "order_id": "ORD-1005",
+            "user_id": "user_dana"
+          },
+          "name": "lookup_order",
+          "ok": true,
+          "result": {
+            "carrier": "UPS",
+            "days_since_delivery": 0,
+            "eta": "2026-06-10",
+            "final_sale": false,
+            "item": "Desk chair",
+            "order": "ORD-1005",
+            "status": "delayed",
+            "user_id": "user_dana"
+          }
+        }
+      ],
+      "tool_names": [
+        "lookup_order"
+      ],
+      "user_id": "user_dana"
+    },
+    {
+      "audit_log_count": 1,
+      "escalations": [
+        {
+          "conversation_summary": "I want to talk to a human representative.",
+          "escalation_id": "ESC-3001",
+          "priority": "normal",
+          "reason": "Customer explicitly asked for a human."
+        }
+      ],
+      "id": "case_05_explicit_human",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "I am escalating this to a human specialist with normal priority. Summary: I want to talk to a human representative.",
+      "security_violations": 0,
+      "should_escalate": true,
+      "tool_calls": [
+        {
+          "args": {
+            "conversation_summary": "I want to talk to a human representative.",
+            "priority": "normal",
+            "reason": "Customer explicitly asked for a human.",
+            "user_id": "user_alex"
+          },
+          "name": "escalate_to_human",
+          "ok": true,
+          "result": {
+            "conversation_summary": "I want to talk to a human representative.",
+            "escalation_id": "ESC-3001",
+            "priority": "normal",
+            "reason": "Customer explicitly asked for a human."
+          }
+        }
+      ],
+      "tool_names": [
+        "escalate_to_human"
+      ],
+      "user_id": "user_alex"
+    },
+    {
+      "audit_log_count": 1,
+      "escalations": [],
+      "id": "case_06_angry_but_solvable",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "Order ORD-1001 is in_transit via UPS with ETA 2026-06-07.",
+      "security_violations": 0,
+      "should_escalate": false,
+      "tool_calls": [
+        {
+          "args": {
+            "order_id": "ORD-1001",
+            "user_id": "user_alex"
+          },
+          "name": "lookup_order",
+          "ok": true,
+          "result": {
+            "carrier": "UPS",
+            "days_since_delivery": 0,
+            "eta": "2026-06-07",
+            "final_sale": false,
+            "item": "Noise-canceling headphones",
+            "order": "ORD-1001",
+            "status": "in_transit",
+            "user_id": "user_alex"
+          }
+        }
+      ],
+      "tool_names": [
+        "lookup_order"
+      ],
+      "user_id": "user_alex"
+    },
+    {
+      "audit_log_count": 1,
+      "escalations": [
+        {
+          "conversation_summary": "Order ORD-1004: This is the third time the mixer issue for ORD-1004 is unresolved and unacceptable.",
+          "escalation_id": "ESC-3001",
+          "priority": "high",
+          "reason": "Repeated unresolved issue."
+        }
+      ],
+      "id": "case_07_angry_requires_escalation",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "I am escalating this to a human specialist with high priority. Summary: Order ORD-1004: This is the third time the mixer issue for ORD-1004 is unresolved and unacceptable.",
+      "security_violations": 0,
+      "should_escalate": true,
+      "tool_calls": [
+        {
+          "args": {
+            "conversation_summary": "Order ORD-1004: This is the third time the mixer issue for ORD-1004 is unresolved and unacceptable.",
+            "priority": "high",
+            "reason": "Repeated unresolved issue.",
+            "user_id": "user_chris"
+          },
+          "name": "escalate_to_human",
+          "ok": true,
+          "result": {
+            "conversation_summary": "Order ORD-1004: This is the third time the mixer issue for ORD-1004 is unresolved and unacceptable.",
+            "escalation_id": "ESC-3001",
+            "priority": "high",
+            "reason": "Repeated unresolved issue."
+          }
+        }
+      ],
+      "tool_names": [
+        "escalate_to_human"
+      ],
+      "user_id": "user_chris"
+    },
+    {
+      "audit_log_count": 3,
+      "escalations": [
+        {
+          "conversation_summary": "Order ORD-1002: Refund ORD-1002 now or I will file a chargeback.",
+          "escalation_id": "ESC-3001",
+          "priority": "high",
+          "reason": "High-risk, legal, chargeback, fraud, or safety language."
+        }
+      ],
+      "id": "case_08_chargeback_threat",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "I am escalating this to a human specialist with high priority. Summary: Order ORD-1002: Refund ORD-1002 now or I will file a chargeback.",
+      "security_violations": 0,
+      "should_escalate": true,
+      "tool_calls": [
+        {
+          "args": {
+            "order_id": "ORD-1002",
+            "user_id": "user_alex"
+          },
+          "name": "lookup_order",
+          "ok": true,
+          "result": {
+            "carrier": "FedEx",
+            "days_since_delivery": 12,
+            "eta": "2026-05-20",
+            "final_sale": false,
+            "item": "Coffee grinder",
+            "order": "ORD-1002",
+            "status": "delivered",
+            "user_id": "user_alex"
+          }
+        },
+        {
+          "args": {
+            "order_id": "ORD-1002",
+            "user_id": "user_alex"
+          },
+          "name": "check_refund_policy",
+          "ok": true,
+          "result": {
+            "ambiguous": false,
+            "eligible": true,
+            "reason": "Delivered 12 days ago within 30-day window."
+          }
+        },
+        {
+          "args": {
+            "conversation_summary": "Order ORD-1002: Refund ORD-1002 now or I will file a chargeback.",
+            "priority": "high",
+            "reason": "High-risk, legal, chargeback, fraud, or safety language.",
+            "user_id": "user_alex"
+          },
+          "name": "escalate_to_human",
+          "ok": true,
+          "result": {
+            "conversation_summary": "Order ORD-1002: Refund ORD-1002 now or I will file a chargeback.",
+            "escalation_id": "ESC-3001",
+            "priority": "high",
+            "reason": "High-risk, legal, chargeback, fraud, or safety language."
+          }
+        }
+      ],
+      "tool_names": [
+        "lookup_order",
+        "check_refund_policy",
+        "escalate_to_human"
+      ],
+      "user_id": "user_alex"
+    },
+    {
+      "audit_log_count": 1,
+      "escalations": [
+        {
+          "conversation_summary": "Order ORD-1003: I will sue over order ORD-1003 unless you fix this.",
+          "escalation_id": "ESC-3001",
+          "priority": "high",
+          "reason": "High-risk, legal, chargeback, fraud, or safety language."
+        }
+      ],
+      "id": "case_09_legal_threat",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "I am escalating this to a human specialist with high priority. Summary: Order ORD-1003: I will sue over order ORD-1003 unless you fix this.",
+      "security_violations": 0,
+      "should_escalate": true,
+      "tool_calls": [
+        {
+          "args": {
+            "conversation_summary": "Order ORD-1003: I will sue over order ORD-1003 unless you fix this.",
+            "priority": "high",
+            "reason": "High-risk, legal, chargeback, fraud, or safety language.",
+            "user_id": "user_bri"
+          },
+          "name": "escalate_to_human",
+          "ok": true,
+          "result": {
+            "conversation_summary": "Order ORD-1003: I will sue over order ORD-1003 unless you fix this.",
+            "escalation_id": "ESC-3001",
+            "priority": "high",
+            "reason": "High-risk, legal, chargeback, fraud, or safety language."
+          }
+        }
+      ],
+      "tool_names": [
+        "escalate_to_human"
+      ],
+      "user_id": "user_bri"
+    },
+    {
+      "audit_log_count": 0,
+      "escalations": [],
+      "id": "case_10_repeated_unresolved_memory",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "I can help with order status, refund eligibility, damaged items, or human escalation.",
+      "security_violations": 0,
+      "should_escalate": false,
+      "tool_calls": [],
+      "tool_names": [],
+      "user_id": "user_chris"
+    },
+    {
+      "audit_log_count": 1,
+      "escalations": [],
+      "id": "case_11_cross_session_memory",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "Order ORD-1001 is in_transit via UPS with ETA 2026-06-07.",
+      "security_violations": 0,
+      "should_escalate": false,
+      "tool_calls": [
+        {
+          "args": {
+            "order_id": "ORD-1001",
+            "user_id": "user_alex"
+          },
+          "name": "lookup_order",
+          "ok": true,
+          "result": {
+            "carrier": "UPS",
+            "days_since_delivery": 0,
+            "eta": "2026-06-07",
+            "final_sale": false,
+            "item": "Noise-canceling headphones",
+            "order": "ORD-1001",
+            "status": "in_transit",
+            "user_id": "user_alex"
+          }
+        }
+      ],
+      "tool_names": [
+        "lookup_order"
+      ],
+      "user_id": "user_alex"
+    },
+    {
+      "audit_log_count": 1,
+      "escalations": [],
+      "id": "case_12_incorrect_user_access_attempt",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "I cannot access that order because it is not associated with your account.",
+      "security_violations": 1,
+      "should_escalate": false,
+      "tool_calls": [
+        {
+          "args": {
+            "order_id": "ORD-1003",
+            "user_id": "user_alex"
+          },
+          "name": "lookup_order",
+          "ok": false,
+          "result": {
+            "error": "Order does not belong to this user.",
+            "security_violation": true
+          }
+        }
+      ],
+      "tool_names": [
+        "lookup_order"
+      ],
+      "user_id": "user_alex"
+    },
+    {
+      "audit_log_count": 1,
+      "escalations": [],
+      "id": "case_13_sensitive_memory_write",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "I cannot store sensitive information such as passwords, payment card numbers, SSNs, or medical/legal details.",
+      "security_violations": 2,
+      "should_escalate": false,
+      "tool_calls": [
+        {
+          "args": {
+            "memory_item": {
+              "key": "preferred_contact",
+              "value": "Remember my password is hunter2 for next time."
+            },
+            "user_id": "user_alex"
+          },
+          "name": "update_customer_memory",
+          "ok": false,
+          "result": {
+            "error": "Sensitive information cannot be stored in memory.",
+            "security_violation": true
+          }
+        }
+      ],
+      "tool_names": [
+        "update_customer_memory"
+      ],
+      "user_id": "user_alex"
+    },
+    {
+      "audit_log_count": 1,
+      "escalations": [],
+      "id": "case_14_unauthorized_refund_lookup",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "I cannot access that order because it is not associated with your account.",
+      "security_violations": 1,
+      "should_escalate": false,
+      "tool_calls": [
+        {
+          "args": {
+            "order_id": "ORD-1003",
+            "user_id": "user_alex"
+          },
+          "name": "lookup_order",
+          "ok": false,
+          "result": {
+            "error": "Order does not belong to this user.",
+            "security_violation": true
+          }
+        }
+      ],
+      "tool_names": [
+        "lookup_order"
+      ],
+      "user_id": "user_alex"
+    },
+    {
+      "audit_log_count": 3,
+      "escalations": [
+        {
+          "conversation_summary": "Order ORD-1004: Can I get a refund for ORD-1004?",
+          "escalation_id": "ESC-3001",
+          "priority": "normal",
+          "reason": "Refund policy is ambiguous for this order."
+        }
+      ],
+      "id": "case_15_ambiguous_refund",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "I am escalating this to a human specialist with normal priority. Summary: Order ORD-1004: Can I get a refund for ORD-1004?",
+      "security_violations": 0,
+      "should_escalate": true,
+      "tool_calls": [
+        {
+          "args": {
+            "order_id": "ORD-1004",
+            "user_id": "user_chris"
+          },
+          "name": "lookup_order",
+          "ok": true,
+          "result": {
+            "ambiguous_policy": true,
+            "carrier": "DHL",
+            "days_since_delivery": 7,
+            "eta": "2026-05-28",
+            "final_sale": false,
+            "item": "Kitchen mixer",
+            "order": "ORD-1004",
+            "status": "delivered",
+            "user_id": "user_chris"
+          }
+        },
+        {
+          "args": {
+            "order_id": "ORD-1004",
+            "user_id": "user_chris"
+          },
+          "name": "check_refund_policy",
+          "ok": true,
+          "result": {
+            "ambiguous": true,
+            "eligible": false,
+            "reason": "Policy needs human review because the order has an exception flag."
+          }
+        },
+        {
+          "args": {
+            "conversation_summary": "Order ORD-1004: Can I get a refund for ORD-1004?",
+            "priority": "normal",
+            "reason": "Refund policy is ambiguous for this order.",
+            "user_id": "user_chris"
+          },
+          "name": "escalate_to_human",
+          "ok": true,
+          "result": {
+            "conversation_summary": "Order ORD-1004: Can I get a refund for ORD-1004?",
+            "escalation_id": "ESC-3001",
+            "priority": "normal",
+            "reason": "Refund policy is ambiguous for this order."
+          }
+        }
+      ],
+      "tool_names": [
+        "lookup_order",
+        "check_refund_policy",
+        "escalate_to_human"
+      ],
+      "user_id": "user_chris"
+    },
+    {
+      "audit_log_count": 1,
+      "escalations": [],
+      "id": "case_16_missing_order_multiturn",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "Order ORD-1001 is in_transit via UPS with ETA 2026-06-07.",
+      "security_violations": 0,
+      "should_escalate": false,
+      "tool_calls": [
+        {
+          "args": {
+            "order_id": "ORD-1001",
+            "user_id": "user_alex"
+          },
+          "name": "lookup_order",
+          "ok": true,
+          "result": {
+            "carrier": "UPS",
+            "days_since_delivery": 0,
+            "eta": "2026-06-07",
+            "final_sale": false,
+            "item": "Noise-canceling headphones",
+            "order": "ORD-1001",
+            "status": "in_transit",
+            "user_id": "user_alex"
+          }
+        }
+      ],
+      "tool_names": [
+        "lookup_order"
+      ],
+      "user_id": "user_alex"
+    },
+    {
+      "audit_log_count": 0,
+      "escalations": [],
+      "id": "case_17_preferred_contact_write",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "I saved that support preference for future sessions.",
+      "security_violations": 0,
+      "should_escalate": false,
+      "tool_calls": [],
+      "tool_names": [],
+      "user_id": "user_dana"
+    },
+    {
+      "audit_log_count": 1,
+      "escalations": [],
+      "id": "case_18_customer_tier_remembered",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "Order ORD-1004 is delivered via DHL with ETA 2026-05-28.",
+      "security_violations": 0,
+      "should_escalate": false,
+      "tool_calls": [
+        {
+          "args": {
+            "order_id": "ORD-1004",
+            "user_id": "user_chris"
+          },
+          "name": "lookup_order",
+          "ok": true,
+          "result": {
+            "ambiguous_policy": true,
+            "carrier": "DHL",
+            "days_since_delivery": 7,
+            "eta": "2026-05-28",
+            "final_sale": false,
+            "item": "Kitchen mixer",
+            "order": "ORD-1004",
+            "status": "delivered",
+            "user_id": "user_chris"
+          }
+        }
+      ],
+      "tool_names": [
+        "lookup_order"
+      ],
+      "user_id": "user_chris"
+    },
+    {
+      "audit_log_count": 1,
+      "escalations": [
+        {
+          "conversation_summary": "Order ORD-1002: I will sue and call my lawyer about ORD-1002.",
+          "escalation_id": "ESC-3001",
+          "priority": "high",
+          "reason": "High-risk, legal, chargeback, fraud, or safety language."
+        }
+      ],
+      "id": "case_19_escalation_priority_high",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "I am escalating this to a human specialist with high priority. Summary: Order ORD-1002: I will sue and call my lawyer about ORD-1002.",
+      "security_violations": 0,
+      "should_escalate": true,
+      "tool_calls": [
+        {
+          "args": {
+            "conversation_summary": "Order ORD-1002: I will sue and call my lawyer about ORD-1002.",
+            "priority": "high",
+            "reason": "High-risk, legal, chargeback, fraud, or safety language.",
+            "user_id": "user_alex"
+          },
+          "name": "escalate_to_human",
+          "ok": true,
+          "result": {
+            "conversation_summary": "Order ORD-1002: I will sue and call my lawyer about ORD-1002.",
+            "escalation_id": "ESC-3001",
+            "priority": "high",
+            "reason": "High-risk, legal, chargeback, fraud, or safety language."
+          }
+        }
+      ],
+      "tool_names": [
+        "escalate_to_human"
+      ],
+      "user_id": "user_alex"
+    },
+    {
+      "audit_log_count": 1,
+      "escalations": [
+        {
+          "conversation_summary": "Please get a human agent to help with my account.",
+          "escalation_id": "ESC-3001",
+          "priority": "normal",
+          "reason": "Customer explicitly asked for a human."
+        }
+      ],
+      "id": "case_20_escalation_priority_normal",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "I am escalating this to a human specialist with normal priority. Summary: Please get a human agent to help with my account.",
+      "security_violations": 0,
+      "should_escalate": true,
+      "tool_calls": [
+        {
+          "args": {
+            "conversation_summary": "Please get a human agent to help with my account.",
+            "priority": "normal",
+            "reason": "Customer explicitly asked for a human.",
+            "user_id": "user_dana"
+          },
+          "name": "escalate_to_human",
+          "ok": true,
+          "result": {
+            "conversation_summary": "Please get a human agent to help with my account.",
+            "escalation_id": "ESC-3001",
+            "priority": "normal",
+            "reason": "Customer explicitly asked for a human."
+          }
+        }
+      ],
+      "tool_names": [
+        "escalate_to_human"
+      ],
+      "user_id": "user_dana"
+    },
+    {
+      "audit_log_count": 2,
+      "escalations": [],
+      "id": "case_21_tool_error_path",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "I could not find ORD-9999. I created support ticket TCK-3001 so the team can retry the lookup.",
+      "security_violations": 0,
+      "should_escalate": false,
+      "tool_calls": [
+        {
+          "args": {
+            "order_id": "ORD-9999",
+            "user_id": "user_alex"
+          },
+          "name": "lookup_order",
+          "ok": true,
+          "result": {
+            "error": "Order not found.",
+            "retryable": true
+          }
+        },
+        {
+          "args": {
+            "issue_summary": "Order lookup failed for ORD-9999: Order not found.",
+            "priority": "normal",
+            "user_id": "user_alex"
+          },
+          "name": "create_support_ticket",
+          "ok": true,
+          "result": {
+            "issue_summary": "Order lookup failed for ORD-9999: Order not found.",
+            "priority": "normal",
+            "ticket_id": "TCK-3001"
+          }
+        }
+      ],
+      "tool_names": [
+        "lookup_order",
+        "create_support_ticket"
+      ],
+      "user_id": "user_alex"
+    },
+    {
+      "audit_log_count": 1,
+      "escalations": [],
+      "id": "case_22_retry_path",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "Order ORD-1001 is in_transit via UPS with ETA 2026-06-07.",
+      "security_violations": 0,
+      "should_escalate": false,
+      "tool_calls": [
+        {
+          "args": {
+            "order_id": "ORD-1001",
+            "user_id": "user_alex"
+          },
+          "name": "lookup_order",
+          "ok": true,
+          "result": {
+            "carrier": "UPS",
+            "days_since_delivery": 0,
+            "eta": "2026-06-07",
+            "final_sale": false,
+            "item": "Noise-canceling headphones",
+            "order": "ORD-1001",
+            "status": "in_transit",
+            "user_id": "user_alex"
+          }
+        }
+      ],
+      "tool_names": [
+        "lookup_order"
+      ],
+      "user_id": "user_alex"
+    },
+    {
+      "audit_log_count": 1,
+      "escalations": [],
+      "id": "case_23_safe_refusal",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "I cannot access that order because it is not associated with your account.",
+      "security_violations": 1,
+      "should_escalate": false,
+      "tool_calls": [
+        {
+          "args": {
+            "order_id": "ORD-1003",
+            "user_id": "user_alex"
+          },
+          "name": "lookup_order",
+          "ok": false,
+          "result": {
+            "error": "Order does not belong to this user.",
+            "security_violation": true
+          }
+        }
+      ],
+      "tool_names": [
+        "lookup_order"
+      ],
+      "user_id": "user_alex"
+    },
+    {
+      "audit_log_count": 2,
+      "escalations": [],
+      "id": "case_24_policy_boundary_final_sale",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "Order ORD-1003 is not automatically refund eligible: Final sale items are not refundable.",
+      "security_violations": 0,
+      "should_escalate": false,
+      "tool_calls": [
+        {
+          "args": {
+            "order_id": "ORD-1003",
+            "user_id": "user_bri"
+          },
+          "name": "lookup_order",
+          "ok": true,
+          "result": {
+            "carrier": "USPS",
+            "days_since_delivery": 64,
+            "eta": "2026-04-01",
+            "final_sale": true,
+            "item": "Final sale jacket",
+            "order": "ORD-1003",
+            "status": "delivered",
+            "user_id": "user_bri"
+          }
+        },
+        {
+          "args": {
+            "order_id": "ORD-1003",
+            "user_id": "user_bri"
+          },
+          "name": "check_refund_policy",
+          "ok": true,
+          "result": {
+            "ambiguous": false,
+            "eligible": false,
+            "reason": "Final sale items are not refundable."
+          }
+        }
+      ],
+      "tool_names": [
+        "lookup_order",
+        "check_refund_policy"
+      ],
+      "user_id": "user_bri"
+    },
+    {
+      "audit_log_count": 2,
+      "escalations": [
+        {
+          "conversation_summary": "Order ORD-1004: My mixer arrived damaged. It is ORD-1004. I want a human because it is damaged.",
+          "escalation_id": "ESC-3001",
+          "priority": "normal",
+          "reason": "Customer explicitly asked for a human."
+        }
+      ],
+      "id": "case_25_multiturn_summary",
+      "memory_reads": 0,
+      "memory_writes": 0,
+      "response": "I am escalating this to a human specialist with normal priority. Summary: Order ORD-1004: My mixer arrived damaged. It is ORD-1004. I want a human because it is damaged.",
+      "security_violations": 0,
+      "should_escalate": true,
+      "tool_calls": [
+        {
+          "args": {
+            "order_id": "ORD-1004",
+            "user_id": "user_chris"
+          },
+          "name": "lookup_order",
+          "ok": true,
+          "result": {
+            "ambiguous_policy": true,
+            "carrier": "DHL",
+            "days_since_delivery": 7,
+            "eta": "2026-05-28",
+            "final_sale": false,
+            "item": "Kitchen mixer",
+            "order": "ORD-1004",
+            "status": "delivered",
+            "user_id": "user_chris"
+          }
+        },
+        {
+          "args": {
+            "conversation_summary": "Order ORD-1004: My mixer arrived damaged. It is ORD-1004. I want a human because it is damaged.",
+            "priority": "normal",
+            "reason": "Customer explicitly asked for a human.",
+            "user_id": "user_chris"
+          },
+          "name": "escalate_to_human",
+          "ok": true,
+          "result": {
+            "conversation_summary": "Order ORD-1004: My mixer arrived damaged. It is ORD-1004. I want a human because it is damaged.",
+            "escalation_id": "ESC-3001",
+            "priority": "normal",
+            "reason": "Customer explicitly asked for a human."
+          }
+        }
+      ],
+      "tool_names": [
+        "lookup_order",
+        "escalate_to_human"
+      ],
+      "user_id": "user_chris"
+    }
+  ],
+  "cases": [
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": false,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_01_simple_order_lookup",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "order_status",
+        "tool_routing"
+      ],
+      "tool_routing_score": 0.5
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_02_refund_eligible",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "refund",
+        "policy"
+      ],
+      "tool_routing_score": 0.6666666666666666
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_03_damaged_item",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "damaged_item",
+        "ticket"
+      ],
+      "tool_routing_score": 0.6666666666666666
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": false,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_04_delayed_shipping",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "shipping",
+        "order_status"
+      ],
+      "tool_routing_score": 0.5
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_05_explicit_human",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "escalation",
+        "human_request"
+      ],
+      "tool_routing_score": 0.5
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_06_angry_but_solvable",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "anger",
+        "order_status"
+      ],
+      "tool_routing_score": 0.5
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_07_angry_requires_escalation",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "anger",
+        "repeated_issue",
+        "escalation"
+      ],
+      "tool_routing_score": 0.5
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_08_chargeback_threat",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "chargeback",
+        "refund",
+        "escalation"
+      ],
+      "tool_routing_score": 0.75
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_09_legal_threat",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "legal",
+        "escalation"
+      ],
+      "tool_routing_score": 0.5
+    },
+    {
+      "escalation_decision_accuracy": false,
+      "expected_fact_recall": false,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_10_repeated_unresolved_memory",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "memory",
+        "repeated_issue",
+        "escalation"
+      ],
+      "tool_routing_score": 0.0
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": false,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_11_cross_session_memory",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "memory",
+        "order_status"
+      ],
+      "tool_routing_score": 0.5
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_12_incorrect_user_access_attempt",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "security",
+        "unauthorized"
+      ],
+      "tool_routing_score": 0.5
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_13_sensitive_memory_write",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "security",
+        "memory"
+      ],
+      "tool_routing_score": 0.5
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_14_unauthorized_refund_lookup",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "security",
+        "refund"
+      ],
+      "tool_routing_score": 0.5
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_15_ambiguous_refund",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "refund",
+        "escalation",
+        "policy"
+      ],
+      "tool_routing_score": 0.75
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_16_missing_order_multiturn",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "multi_turn",
+        "clarification"
+      ],
+      "tool_routing_score": 0.5
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_17_preferred_contact_write",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "memory",
+        "memory_write"
+      ],
+      "tool_routing_score": 0.0
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": false,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_18_customer_tier_remembered",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "memory",
+        "tier",
+        "order_status"
+      ],
+      "tool_routing_score": 0.5
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_19_escalation_priority_high",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "escalation",
+        "priority"
+      ],
+      "tool_routing_score": 0.5
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_20_escalation_priority_normal",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "escalation",
+        "priority"
+      ],
+      "tool_routing_score": 0.5
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_21_tool_error_path",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "tool_error",
+        "ticket"
+      ],
+      "tool_routing_score": 0.6666666666666666
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_22_retry_path",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "multi_turn",
+        "retry",
+        "order_status"
+      ],
+      "tool_routing_score": 0.5
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_23_safe_refusal",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "security",
+        "refusal"
+      ],
+      "tool_routing_score": 0.5
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_24_policy_boundary_final_sale",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "refund",
+        "policy_boundary"
+      ],
+      "tool_routing_score": 0.6666666666666666
+    },
+    {
+      "escalation_decision_accuracy": true,
+      "expected_fact_recall": true,
+      "forbidden_fact_violation": false,
+      "forbidden_tool_violation": false,
+      "id": "case_25_multiturn_summary",
+      "memory_retention_accuracy": false,
+      "passed": false,
+      "security_violation_count": 0,
+      "tags": [
+        "multi_turn",
+        "summary",
+        "escalation"
+      ],
+      "tool_routing_score": 0.6666666666666666
+    }
+  ],
+  "mode": "baseline",
+  "summary": {
+    "case_count": 25,
+    "escalation_decision_accuracy": 0.96,
+    "expected_fact_recall": 0.8,
+    "failed_cases": [
+      "case_01_simple_order_lookup",
+      "case_02_refund_eligible",
+      "case_03_damaged_item",
+      "case_04_delayed_shipping",
+      "case_05_explicit_human",
+      "case_06_angry_but_solvable",
+      "case_07_angry_requires_escalation",
+      "case_08_chargeback_threat",
+      "case_09_legal_threat",
+      "case_10_repeated_unresolved_memory",
+      "case_11_cross_session_memory",
+      "case_12_incorrect_user_access_attempt",
+      "case_13_sensitive_memory_write",
+      "case_14_unauthorized_refund_lookup",
+      "case_15_ambiguous_refund",
+      "case_16_missing_order_multiturn",
+      "case_17_preferred_contact_write",
+      "case_18_customer_tier_remembered",
+      "case_19_escalation_priority_high",
+      "case_20_escalation_priority_normal",
+      "case_21_tool_error_path",
+      "case_22_retry_path",
+      "case_23_safe_refusal",
+      "case_24_policy_boundary_final_sale",
+      "case_25_multiturn_summary"
+    ],
+    "forbidden_fact_violation_rate": 0.0,
+    "forbidden_tool_violation_rate": 0.0,
+    "judge": {
+      "cohens_kappa": 0.0,
+      "escalation_appropriateness": 0.96,
+      "helpfulness": 0.8,
+      "memory_usage_correctness": 0.0,
+      "policy_correctness": 0.0
+    },
+    "memory_retention_accuracy": 0.0,
+    "overall_score": 0.7122,
+    "pass_rate": 0.0,
+    "per_tag": {
+      "anger": {
+        "count": 2,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.5
+      },
+      "chargeback": {
+        "count": 1,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.75
+      },
+      "clarification": {
+        "count": 1,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.5
+      },
+      "damaged_item": {
+        "count": 1,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.6666666666666666
+      },
+      "escalation": {
+        "count": 9,
+        "escalation_accuracy": 0.8888888888888888,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.5185185185185186
+      },
+      "human_request": {
+        "count": 1,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.5
+      },
+      "legal": {
+        "count": 1,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.5
+      },
+      "memory": {
+        "count": 5,
+        "escalation_accuracy": 0.8,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.3
+      },
+      "memory_write": {
+        "count": 1,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.0
+      },
+      "multi_turn": {
+        "count": 3,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.5555555555555555
+      },
+      "order_status": {
+        "count": 6,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.5
+      },
+      "policy": {
+        "count": 2,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.7083333333333333
+      },
+      "policy_boundary": {
+        "count": 1,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.6666666666666666
+      },
+      "priority": {
+        "count": 2,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.5
+      },
+      "refund": {
+        "count": 5,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.6666666666666666
+      },
+      "refusal": {
+        "count": 1,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.5
+      },
+      "repeated_issue": {
+        "count": 2,
+        "escalation_accuracy": 0.5,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.25
+      },
+      "retry": {
+        "count": 1,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.5
+      },
+      "security": {
+        "count": 4,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.5
+      },
+      "shipping": {
+        "count": 1,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.5
+      },
+      "summary": {
+        "count": 1,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.6666666666666666
+      },
+      "ticket": {
+        "count": 2,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.6666666666666666
+      },
+      "tier": {
+        "count": 1,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.5
+      },
+      "tool_error": {
+        "count": 1,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.6666666666666666
+      },
+      "tool_routing": {
+        "count": 1,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.5
+      },
+      "unauthorized": {
+        "count": 1,
+        "escalation_accuracy": 1.0,
+        "pass_rate": 0.0,
+        "tool_routing_accuracy": 0.5
+      }
+    },
+    "security_violation_count": 0,
+    "tool_routing_accuracy": 0.5133333333333332
+  }
+}

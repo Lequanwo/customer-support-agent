@@ -1,0 +1,48 @@
+{
+  "ORD-1001": {
+    "user_id": "user_alex",
+    "status": "in_transit",
+    "carrier": "UPS",
+    "eta": "2026-06-07",
+    "item": "Noise-canceling headphones",
+    "days_since_delivery": 0,
+    "final_sale": false
+  },
+  "ORD-1002": {
+    "user_id": "user_alex",
+    "status": "delivered",
+    "carrier": "FedEx",
+    "eta": "2026-05-20",
+    "item": "Coffee grinder",
+    "days_since_delivery": 12,
+    "final_sale": false
+  },
+  "ORD-1003": {
+    "user_id": "user_bri",
+    "status": "delivered",
+    "carrier": "USPS",
+    "eta": "2026-04-01",
+    "item": "Final sale jacket",
+    "days_since_delivery": 64,
+    "final_sale": true
+  },
+  "ORD-1004": {
+    "user_id": "user_chris",
+    "status": "delivered",
+    "carrier": "DHL",
+    "eta": "2026-05-28",
+    "item": "Kitchen mixer",
+    "days_since_delivery": 7,
+    "final_sale": false,
+    "ambiguous_policy": true
+  },
+  "ORD-1005": {
+    "user_id": "user_dana",
+    "status": "delayed",
+    "carrier": "UPS",
+    "eta": "2026-06-10",
+    "item": "Desk chair",
+    "days_since_delivery": 0,
+    "final_sale": false
+  }
+}
