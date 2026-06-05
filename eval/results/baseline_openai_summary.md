@@ -2,15 +2,15 @@
 
 | Metric | Value |
 |---|---:|
-| Overall score | 0.7056 |
+| Overall score | 0.6256 |
 | Pass rate | 0.0000 |
 | Memory retention accuracy | 0.0000 |
-| Escalation decision accuracy | 0.9600 |
+| Escalation decision accuracy | 0.9200 |
 | Tool routing accuracy | 0.5133 |
-| Expected fact recall | 0.7600 |
-| Forbidden tool violation rate | 0.0000 |
-| Forbidden fact violation rate | 0.0000 |
-| Security violation count | 0 |
+| Expected fact recall | 0.4400 |
+| Forbidden tool violation rate | 0.0400 |
+| Forbidden fact violation rate | 0.0800 |
+| Security violation count | 3 |
 | Judge Cohen's kappa | 0.0000 |
 
 ## Failed Cases

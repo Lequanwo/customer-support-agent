@@ -112,14 +112,14 @@
         },
         {
           "args": {
-            "issue_summary": "Order ORD-1002: My item in ORD-1002 arrived damaged.",
+            "issue_summary": "Order ORD-1002; customer reported a damaged item.",
             "priority": "normal",
             "user_id": "user_alex"
           },
           "name": "create_support_ticket",
           "ok": true,
           "result": {
-            "issue_summary": "Order ORD-1002: My item in ORD-1002 arrived damaged.",
+            "issue_summary": "Order ORD-1002; customer reported a damaged item.",
             "priority": "normal",
             "ticket_id": "TCK-3001"
           }
@@ -169,7 +169,7 @@
       "audit_log_count": 1,
       "escalations": [
         {
-          "conversation_summary": "I want to talk to a human representative.",
+          "conversation_summary": "customer requested human help.",
           "escalation_id": "ESC-3001",
           "priority": "normal",
           "reason": "Customer explicitly asked for a human."
@@ -178,13 +178,13 @@
       "id": "case_05_explicit_human",
       "memory_reads": 0,
       "memory_writes": 0,
-      "response": "I am escalating this to a human specialist with normal priority. Summary: I want to talk to a human representative.",
+      "response": "I am escalating this to a human specialist with normal priority. Summary: customer requested human help.",
       "security_violations": 0,
       "should_escalate": true,
       "tool_calls": [
         {
           "args": {
-            "conversation_summary": "I want to talk to a human representative.",
+            "conversation_summary": "customer requested human help.",
             "priority": "normal",
             "reason": "Customer explicitly asked for a human.",
             "user_id": "user_alex"
@@ -192,7 +192,7 @@
           "name": "escalate_to_human",
           "ok": true,
           "result": {
-            "conversation_summary": "I want to talk to a human representative.",
+            "conversation_summary": "customer requested human help.",
             "escalation_id": "ESC-3001",
             "priority": "normal",
             "reason": "Customer explicitly asked for a human."
@@ -242,7 +242,7 @@
       "audit_log_count": 1,
       "escalations": [
         {
-          "conversation_summary": "Order ORD-1004: This is the third time the mixer issue for ORD-1004 is unresolved and unacceptable.",
+          "conversation_summary": "Order ORD-1004; customer sentiment or risk language was noted.",
           "escalation_id": "ESC-3001",
           "priority": "high",
           "reason": "Repeated unresolved issue."
@@ -251,13 +251,13 @@
       "id": "case_07_angry_requires_escalation",
       "memory_reads": 0,
       "memory_writes": 0,
-      "response": "I am escalating this to a human specialist with high priority. Summary: Order ORD-1004: This is the third time the mixer issue for ORD-1004 is unresolved and unacceptable.",
+      "response": "I am escalating this to a human specialist with high priority. Summary: Order ORD-1004; customer sentiment or risk language was noted.",
       "security_violations": 0,
       "should_escalate": true,
       "tool_calls": [
         {
           "args": {
-            "conversation_summary": "Order ORD-1004: This is the third time the mixer issue for ORD-1004 is unresolved and unacceptable.",
+            "conversation_summary": "Order ORD-1004; customer sentiment or risk language was noted.",
             "priority": "high",
             "reason": "Repeated unresolved issue.",
             "user_id": "user_chris"
@@ -265,7 +265,7 @@
           "name": "escalate_to_human",
           "ok": true,
           "result": {
-            "conversation_summary": "Order ORD-1004: This is the third time the mixer issue for ORD-1004 is unresolved and unacceptable.",
+            "conversation_summary": "Order ORD-1004; customer sentiment or risk language was noted.",
             "escalation_id": "ESC-3001",
             "priority": "high",
             "reason": "Repeated unresolved issue."
@@ -281,7 +281,7 @@
       "audit_log_count": 3,
       "escalations": [
         {
-          "conversation_summary": "Order ORD-1002: Refund ORD-1002 now or I will file a chargeback.",
+          "conversation_summary": "Order ORD-1002; customer asked about refund eligibility; customer sentiment or risk language was noted.",
           "escalation_id": "ESC-3001",
           "priority": "high",
           "reason": "High-risk, legal, chargeback, fraud, or safety language."
@@ -290,7 +290,7 @@
       "id": "case_08_chargeback_threat",
       "memory_reads": 0,
       "memory_writes": 0,
-      "response": "I am escalating this to a human specialist with high priority. Summary: Order ORD-1002: Refund ORD-1002 now or I will file a chargeback.",
+      "response": "I am escalating this to a human specialist with high priority. Summary: Order ORD-1002; customer asked about refund eligibility; customer sentiment or risk language was noted.",
       "security_violations": 0,
       "should_escalate": true,
       "tool_calls": [
@@ -327,7 +327,7 @@
         },
         {
           "args": {
-            "conversation_summary": "Order ORD-1002: Refund ORD-1002 now or I will file a chargeback.",
+            "conversation_summary": "Order ORD-1002; customer asked about refund eligibility; customer sentiment or risk language was noted.",
             "priority": "high",
             "reason": "High-risk, legal, chargeback, fraud, or safety language.",
             "user_id": "user_alex"
@@ -335,7 +335,7 @@
           "name": "escalate_to_human",
           "ok": true,
           "result": {
-            "conversation_summary": "Order ORD-1002: Refund ORD-1002 now or I will file a chargeback.",
+            "conversation_summary": "Order ORD-1002; customer asked about refund eligibility; customer sentiment or risk language was noted.",
             "escalation_id": "ESC-3001",
             "priority": "high",
             "reason": "High-risk, legal, chargeback, fraud, or safety language."
@@ -353,7 +353,7 @@
       "audit_log_count": 1,
       "escalations": [
         {
-          "conversation_summary": "Order ORD-1003: I will sue over order ORD-1003 unless you fix this.",
+          "conversation_summary": "Order ORD-1003; customer sentiment or risk language was noted.",
           "escalation_id": "ESC-3001",
           "priority": "high",
           "reason": "High-risk, legal, chargeback, fraud, or safety language."
@@ -362,13 +362,13 @@
       "id": "case_09_legal_threat",
       "memory_reads": 0,
       "memory_writes": 0,
-      "response": "I am escalating this to a human specialist with high priority. Summary: Order ORD-1003: I will sue over order ORD-1003 unless you fix this.",
+      "response": "I am escalating this to a human specialist with high priority. Summary: Order ORD-1003; customer sentiment or risk language was noted.",
       "security_violations": 0,
       "should_escalate": true,
       "tool_calls": [
         {
           "args": {
-            "conversation_summary": "Order ORD-1003: I will sue over order ORD-1003 unless you fix this.",
+            "conversation_summary": "Order ORD-1003; customer sentiment or risk language was noted.",
             "priority": "high",
             "reason": "High-risk, legal, chargeback, fraud, or safety language.",
             "user_id": "user_bri"
@@ -376,7 +376,7 @@
           "name": "escalate_to_human",
           "ok": true,
           "result": {
-            "conversation_summary": "Order ORD-1003: I will sue over order ORD-1003 unless you fix this.",
+            "conversation_summary": "Order ORD-1003; customer sentiment or risk language was noted.",
             "escalation_id": "ESC-3001",
             "priority": "high",
             "reason": "High-risk, legal, chargeback, fraud, or safety language."
@@ -526,7 +526,7 @@
       "audit_log_count": 3,
       "escalations": [
         {
-          "conversation_summary": "Order ORD-1004: Can I get a refund for ORD-1004?",
+          "conversation_summary": "Order ORD-1004; customer asked about refund eligibility.",
           "escalation_id": "ESC-3001",
           "priority": "normal",
           "reason": "Refund policy is ambiguous for this order."
@@ -535,7 +535,7 @@
       "id": "case_15_ambiguous_refund",
       "memory_reads": 0,
       "memory_writes": 0,
-      "response": "I am escalating this to a human specialist with normal priority. Summary: Order ORD-1004: Can I get a refund for ORD-1004?",
+      "response": "I am escalating this to a human specialist with normal priority. Summary: Order ORD-1004; customer asked about refund eligibility.",
       "security_violations": 0,
       "should_escalate": true,
       "tool_calls": [
@@ -573,7 +573,7 @@
         },
         {
           "args": {
-            "conversation_summary": "Order ORD-1004: Can I get a refund for ORD-1004?",
+            "conversation_summary": "Order ORD-1004; customer asked about refund eligibility.",
             "priority": "normal",
             "reason": "Refund policy is ambiguous for this order.",
             "user_id": "user_chris"
@@ -581,7 +581,7 @@
           "name": "escalate_to_human",
           "ok": true,
           "result": {
-            "conversation_summary": "Order ORD-1004: Can I get a refund for ORD-1004?",
+            "conversation_summary": "Order ORD-1004; customer asked about refund eligibility.",
             "escalation_id": "ESC-3001",
             "priority": "normal",
             "reason": "Refund policy is ambiguous for this order."
@@ -635,7 +635,7 @@
       "id": "case_17_preferred_contact_write",
       "memory_reads": 0,
       "memory_writes": 0,
-      "response": "I saved that support preference for future sessions.",
+      "response": "I can help with order status, refund eligibility, damaged items, or human escalation.",
       "security_violations": 0,
       "should_escalate": false,
       "tool_calls": [],
@@ -681,7 +681,7 @@
       "audit_log_count": 1,
       "escalations": [
         {
-          "conversation_summary": "Order ORD-1002: I will sue and call my lawyer about ORD-1002.",
+          "conversation_summary": "Order ORD-1002; customer sentiment or risk language was noted.",
           "escalation_id": "ESC-3001",
           "priority": "high",
           "reason": "High-risk, legal, chargeback, fraud, or safety language."
@@ -690,13 +690,13 @@
       "id": "case_19_escalation_priority_high",
       "memory_reads": 0,
       "memory_writes": 0,
-      "response": "I am escalating this to a human specialist with high priority. Summary: Order ORD-1002: I will sue and call my lawyer about ORD-1002.",
+      "response": "I am escalating this to a human specialist with high priority. Summary: Order ORD-1002; customer sentiment or risk language was noted.",
       "security_violations": 0,
       "should_escalate": true,
       "tool_calls": [
         {
           "args": {
-            "conversation_summary": "Order ORD-1002: I will sue and call my lawyer about ORD-1002.",
+            "conversation_summary": "Order ORD-1002; customer sentiment or risk language was noted.",
             "priority": "high",
             "reason": "High-risk, legal, chargeback, fraud, or safety language.",
             "user_id": "user_alex"
@@ -704,7 +704,7 @@
           "name": "escalate_to_human",
           "ok": true,
           "result": {
-            "conversation_summary": "Order ORD-1002: I will sue and call my lawyer about ORD-1002.",
+            "conversation_summary": "Order ORD-1002; customer sentiment or risk language was noted.",
             "escalation_id": "ESC-3001",
             "priority": "high",
             "reason": "High-risk, legal, chargeback, fraud, or safety language."
@@ -720,7 +720,7 @@
       "audit_log_count": 1,
       "escalations": [
         {
-          "conversation_summary": "Please get a human agent to help with my account.",
+          "conversation_summary": "customer requested human help.",
           "escalation_id": "ESC-3001",
           "priority": "normal",
           "reason": "Customer explicitly asked for a human."
@@ -729,13 +729,13 @@
       "id": "case_20_escalation_priority_normal",
       "memory_reads": 0,
       "memory_writes": 0,
-      "response": "I am escalating this to a human specialist with normal priority. Summary: Please get a human agent to help with my account.",
+      "response": "I am escalating this to a human specialist with normal priority. Summary: customer requested human help.",
       "security_violations": 0,
       "should_escalate": true,
       "tool_calls": [
         {
           "args": {
-            "conversation_summary": "Please get a human agent to help with my account.",
+            "conversation_summary": "customer requested human help.",
             "priority": "normal",
             "reason": "Customer explicitly asked for a human.",
             "user_id": "user_dana"
@@ -743,7 +743,7 @@
           "name": "escalate_to_human",
           "ok": true,
           "result": {
-            "conversation_summary": "Please get a human agent to help with my account.",
+            "conversation_summary": "customer requested human help.",
             "escalation_id": "ESC-3001",
             "priority": "normal",
             "reason": "Customer explicitly asked for a human."
@@ -779,14 +779,14 @@
         },
         {
           "args": {
-            "issue_summary": "Order lookup failed for ORD-9999: Order not found.",
+            "issue_summary": "Order lookup failed for ORD-9999: Order ORD-9999; customer asked about order status or shipping.",
             "priority": "normal",
             "user_id": "user_alex"
           },
           "name": "create_support_ticket",
           "ok": true,
           "result": {
-            "issue_summary": "Order lookup failed for ORD-9999: Order not found.",
+            "issue_summary": "Order lookup failed for ORD-9999: Order ORD-9999; customer asked about order status or shipping.",
             "priority": "normal",
             "ticket_id": "TCK-3001"
           }
@@ -912,7 +912,7 @@
       "audit_log_count": 2,
       "escalations": [
         {
-          "conversation_summary": "Order ORD-1004: My mixer arrived damaged. It is ORD-1004. I want a human because it is damaged.",
+          "conversation_summary": "Order ORD-1004; customer reported a damaged item; customer requested human help.",
           "escalation_id": "ESC-3001",
           "priority": "normal",
           "reason": "Customer explicitly asked for a human."
@@ -921,7 +921,7 @@
       "id": "case_25_multiturn_summary",
       "memory_reads": 0,
       "memory_writes": 0,
-      "response": "I am escalating this to a human specialist with normal priority. Summary: Order ORD-1004: My mixer arrived damaged. It is ORD-1004. I want a human because it is damaged.",
+      "response": "I am escalating this to a human specialist with normal priority. Summary: Order ORD-1004; customer reported a damaged item; customer requested human help.",
       "security_violations": 0,
       "should_escalate": true,
       "tool_calls": [
@@ -946,7 +946,7 @@
         },
         {
           "args": {
-            "conversation_summary": "Order ORD-1004: My mixer arrived damaged. It is ORD-1004. I want a human because it is damaged.",
+            "conversation_summary": "Order ORD-1004; customer reported a damaged item; customer requested human help.",
             "priority": "normal",
             "reason": "Customer explicitly asked for a human.",
             "user_id": "user_chris"
@@ -954,7 +954,7 @@
           "name": "escalate_to_human",
           "ok": true,
           "result": {
-            "conversation_summary": "Order ORD-1004: My mixer arrived damaged. It is ORD-1004. I want a human because it is damaged.",
+            "conversation_summary": "Order ORD-1004; customer reported a damaged item; customer requested human help.",
             "escalation_id": "ESC-3001",
             "priority": "normal",
             "reason": "Customer explicitly asked for a human."
@@ -1215,7 +1215,7 @@
     },
     {
       "escalation_decision_accuracy": true,
-      "expected_fact_recall": true,
+      "expected_fact_recall": false,
       "forbidden_fact_violation": false,
       "forbidden_tool_violation": false,
       "id": "case_17_preferred_contact_write",
@@ -1356,7 +1356,7 @@
   "summary": {
     "case_count": 25,
     "escalation_decision_accuracy": 0.96,
-    "expected_fact_recall": 0.8,
+    "expected_fact_recall": 0.76,
     "failed_cases": [
       "case_01_simple_order_lookup",
       "case_02_refund_eligible",
@@ -1389,12 +1389,12 @@
     "judge": {
       "cohens_kappa": 0.0,
       "escalation_appropriateness": 0.96,
-      "helpfulness": 0.8,
+      "helpfulness": 0.76,
       "memory_usage_correctness": 0.0,
       "policy_correctness": 0.0
     },
     "memory_retention_accuracy": 0.0,
-    "overall_score": 0.7122,
+    "overall_score": 0.7056,
     "pass_rate": 0.0,
     "per_tag": {
       "anger": {
@@ -1555,6 +1555,6 @@
       }
     },
     "security_violation_count": 0,
-    "tool_routing_accuracy": 0.5133333333333332
+    "tool_routing_accuracy": 0.5133333333333333
   }
 }

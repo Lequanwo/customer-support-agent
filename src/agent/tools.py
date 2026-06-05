@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from .audit import AuditLogger
-from .memory import CustomerMemoryStore
+from .memory import make_memory_store
 from .models import ToolCall
 from .security import (
     SecurityError,
@@ -20,7 +20,7 @@ class SupportTools:
     def __init__(self, data_dir: str | Path = "data", audit_path: str | Path = "data/audit_log.jsonl"):
         self.data_dir = Path(data_dir)
         self.audit = AuditLogger(audit_path)
-        self.memory = CustomerMemoryStore(self.data_dir / "memory_store.json")
+        self.memory = make_memory_store(self.data_dir / "memory_store.json")
         self._ticket_counter = 3000
 
     def _read_json(self, name: str) -> Any:

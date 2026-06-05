@@ -2,7 +2,7 @@
 
 Deterministic Python project for a customer support AI agent with cross-session memory, function-style tools, human escalation, and security/governance controls.
 
-The code runs without a paid LLM API. `MockLLM` keeps behavior reproducible for tests and evals, while `BaseLLM` leaves room for an optional OpenAI-compatible implementation later.
+The code runs without a paid LLM API. `MockLLM` is called for query understanding, action planning, escalation decisions, conversation summarization, and final response generation so tests and evals stay reproducible, while `OpenAICompatibleLLM` leaves room for an optional hosted model later.
 
 ## Business Use Case
 
@@ -13,19 +13,21 @@ The agent helps customers with order status, refund eligibility, damaged item co
 ```mermaid
 flowchart LR
     U[Customer] --> A[CustomerSupportAgent]
-    A --> M[Memory Store by user_id]
+    A --> LLM[LLM Interface: understand, plan, escalate, summarize, respond]
+    LLM --> A
+    A --> M[Memory Store by user_id: JSON or Mem0]
     A --> T[Support Tools]
     A --> G[Security and Governance]
     T --> O[orders.json]
     T --> P[policies.json]
-    T --> L[audit_log.jsonl]
+    T --> LOG[audit_log.jsonl]
     G --> T
     A --> E[Human Escalation]
 ```
 
 ## Three Core Components
 
-Memory: `src/agent/memory.py` stores stable customer facts by `user_id`, including tier, preferred contact, repeated issue history, unresolved tickets, and refund/shipping preferences. Sensitive information is rejected.
+Memory: `src/agent/memory.py` stores stable customer facts by `user_id`, including tier, preferred contact, repeated issue history, unresolved tickets, and refund/shipping preferences. Sensitive information is rejected. The default backend is local JSON for deterministic evals, and an optional Mem0 backend can be enabled with `MEMORY_BACKEND=mem0`.
 
 Tools: `src/agent/tools.py` implements the required function-calling style operations:
 
@@ -37,6 +39,10 @@ Tools: `src/agent/tools.py` implements the required function-calling style opera
 - `retrieve_customer_memory(user_id)`
 
 Security/Governance: `src/agent/security.py`, `src/agent/policy.py`, and `src/agent/audit.py` provide validation, permission checks, audit logging, unsafe memory filtering, escalation guardrails, and refusal behavior.
+
+LLM usage: `src/agent/agent.py` defines `BaseLLM`, `MockLLM`, and `OpenAICompatibleLLM`. The agent calls the LLM five times in the request path: `TASK: understand_query` extracts intent and entities, `TASK: create_action_plan` proposes which tools should be used, `TASK: decide_escalation` decides whether the case should go to a human and at what priority, `TASK: summarize_conversation` summarizes the chat for support tickets and human handoff, and `TASK: generate_response` drafts the final customer-facing answer. The deterministic security and tool layers still enforce permissions, validation, audit logging, and unsafe memory filtering. Escalation output is schema-validated, with deterministic fallback if the LLM returns malformed data.
+
+The default remains `MockLLM`. To call a real OpenAI model, set `OPENAI_API_KEY` and pass `--llm openai`. The default OpenAI model is `gpt-5.4-nano`, and it can be overridden with `--model` or `OPENAI_MODEL`.
 
 ## Install
 
@@ -51,13 +57,55 @@ python -m pip install -e .
 python -m agent.main --mode optimized --user-id user_alex "Where is order ORD-1001?"
 ```
 
+Run with a real OpenAI model:
+
+```bash
+export OPENAI_API_KEY="your_api_key_here"
+python -m agent.main --mode optimized --llm openai --model gpt-5.4-nano --user-id user_alex "Where is order ORD-1001?"
+```
+
+PowerShell:
+
+```powershell
+$env:OPENAI_API_KEY="your_api_key_here"
+python -m agent.main --mode optimized --llm openai --model gpt-5.4-nano --user-id user_alex "Where is order ORD-1001?"
+```
+
+You can also create a local `.env` file from `.env.example`. `.env` is ignored by git, so do not commit your real key.
+
+Optional Mem0 memory backend:
+
+```bash
+python -m pip install mem0ai
+export MEMORY_BACKEND=mem0
+export MEM0_API_KEY="your_mem0_key_here"
+python -m agent.main --mode optimized --llm openai --user-id user_alex "Remember my preferred contact method is sms."
+```
+
+PowerShell:
+
+```powershell
+python -m pip install mem0ai
+$env:MEMORY_BACKEND="mem0"
+$env:MEM0_API_KEY="your_mem0_key_here"
+python -m agent.main --mode optimized --llm openai --user-id user_alex "Remember my preferred contact method is sms."
+```
+
 For a longer 12-turn demo:
 
 ```bash
 python examples/long_multiturn_demo.py
 ```
 
+Real-LLM long demo:
+
+```bash
+python examples/long_multiturn_demo.py --llm openai --model gpt-5.4-nano
+```
+
 ## Run Tests
+
+Tests use `MockLLM` and the local JSON memory backend so the unit suite is deterministic and does not spend API calls.
 
 ```bash
 pytest
@@ -71,6 +119,16 @@ python eval/run_eval.py --mode optimized
 ```
 
 The scripts write JSON results and Markdown summaries to `eval/results/`.
+
+Run golden-set eval with the real OpenAI LLM:
+
+```powershell
+$env:OPENAI_API_KEY="your_openai_key_here"
+$env:OPENAI_MODEL="gpt-5.4-nano"
+python eval/run_eval.py --mode optimized --llm openai --model gpt-5.4-nano
+```
+
+Real-LLM eval writes separate files such as `eval/results/optimized_openai_results.json`.
 
 ## Golden Set
 
@@ -91,7 +149,9 @@ The scripts write JSON results and Markdown summaries to `eval/results/`.
 
 `eval/judge.py` adds deterministic judge scoring and Cohen's kappa between two mock judges.
 
-## Experiment Results
+## 2.4 Analysis (Required)
+
+### Results Table
 
 Actual results were generated by running:
 
@@ -102,10 +162,12 @@ python eval/run_eval.py --mode optimized
 
 | Mode | Overall | Pass Rate | Memory | Escalation | Tool Routing | Fact Recall | Kappa |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Baseline | 0.7122 | 0.0000 | 0.0000 | 0.9600 | 0.5133 | 0.8000 | 0.0000 |
+| Baseline | 0.7056 | 0.0000 | 0.0000 | 0.9600 | 0.5133 | 0.7600 | 0.0000 |
 | Optimized | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 |
 
-## Failure Analysis
+Conclusion: The optimized agent substantially improves over the baseline because it retrieves scoped customer memory before responding, routes more consistently to the required tools, and applies stricter escalation and governance checks. The baseline still handles several direct support requests, but it fails the strict golden-set pass criteria because it does not reliably use cross-session memory or safe memory writes. The optimized run passed all 25 golden cases with zero forbidden fact leaks, zero forbidden tool violations, and zero counted security violations.
+
+### Failure Analysis
 
 The optimized run has no failed golden cases. The baseline run fails the strict pass criterion because the golden set expects the optimized memory-first behavior.
 
@@ -115,7 +177,7 @@ Case `case_10_repeated_unresolved_memory`: baseline does not use unresolved tick
 
 Case `case_17_preferred_contact_write`: baseline does not persist safe customer preferences. The optimized agent calls `update_customer_memory` after the safety filter approves the preference.
 
-## Tradeoff
+### One-Line Tradeoff
 
 The optimized agent improves memory retention and escalation safety, but trades off slightly more tool usage for every request because it retrieves scoped memory before responding.
 
@@ -123,7 +185,7 @@ The optimized agent improves memory retention and escalation safety, but trades 
 
 Use this as a 15-minute walkthrough without slides.
 
-Architecture, 2 min: Open `src/agent/agent.py` and explain the deterministic `CustomerSupportAgent.handle()` flow: memory read, safety checks, tool routing, escalation decision, and final response.
+Architecture, 2 min: Open `src/agent/agent.py` and explain the `CustomerSupportAgent.handle()` flow: LLM query understanding, memory read, LLM action plan, safety checks, tool routing, LLM escalation decision, LLM conversation summary, and LLM response generation. Point to `TASK: understand_query`, `TASK: create_action_plan`, `TASK: decide_escalation`, `TASK: summarize_conversation`, and `TASK: generate_response`.
 
 Code walkthrough, 3 min: Open `src/agent/memory.py`, `src/agent/tools.py`, and `src/agent/security.py`. Show user-scoped memory, audit logging, permission checks, and unsafe memory filtering.
 
